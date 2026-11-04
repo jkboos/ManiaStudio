@@ -17,9 +17,8 @@ Thumbs.db
 /.idea/
 /.vscode/
 
-# Models and datasets are distributed separately
-/runtime/data/
-/runtime/runs/
+# The generation engine, models, and datasets are supplied separately
+/runtime/
 /data/
 /runs/
 /outputs/
@@ -32,6 +31,14 @@ Thumbs.db
 *.npz
 *.csv
 *.jsonl
+
+# Local research and model-evaluation tools (keep only the app packager)
+/tools/*
+!/tools/package.py
+/VALIDATION.md
+/tests/test_control.py
+/tests/test_ln_planning.py
+/tests/portable_check.py
 
 # External executables and archives
 /bin/

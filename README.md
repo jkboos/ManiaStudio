@@ -2,6 +2,8 @@
 
 ManiaStudio is a local web app for generating osu!mania beatmaps from music. Choose a key mode, target difficulty, and pattern preferences, then export a beatmap for osu!.
 
+This repository contains the web tool and its integration with a separate generation engine. It does not include model-training or research code.
+
 ## Features
 
 - **4K and 7K generation**, with taps and long notes.
@@ -19,13 +21,13 @@ ManiaStudio is a local web app for generating osu!mania beatmaps from music. Cho
 
 Windows and Python 3.11 (64-bit, with the Python launcher). A compatible NVIDIA GPU can accelerate generation; CPU execution is also supported.
 
-**This is currently a source-code-only repository.** Full generation also requires resources that are not included:
+**This is currently a web-tool source repository.** Full generation also requires components that are not included:
 
-- Model checkpoints in `runtime/runs/`, as referenced by `control_backend.json` and `frozen_backend.json`.
-- Normalization and conditioning data in `runtime/data/`.
+- The generation engine in `runtime/`, including its `portable_generate.py` entry point and inference dependencies.
+- Matching model checkpoints and conditioning data in `runtime/runs/` and `runtime/data/`, as referenced by the backend manifests.
 - `node.exe`, `ffmpeg.exe`, and `ffprobe.exe` in `bin/`.
 
-`Setup.ps1` installs Python dependencies, but does not download these additional resources. Third-party notices are preserved in `licenses/` and `runtime/third_party/`.
+`Setup.ps1` installs Python dependencies, but does not download these additional components. External binary notices are preserved in `licenses/`; the generation engine must retain its own third-party notices.
 
 ### Create a beatmap
 
