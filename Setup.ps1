@@ -1,15 +1,15 @@
+param([string]$PythonPath)
 $ErrorActionPreference = 'Stop'
 Set-Location -LiteralPath $PSScriptRoot
-$python = Join-Path $PSScriptRoot '.venv\Scripts\python.exe'
-if (-not (Test-Path -LiteralPath $python)) {
-    Write-Host 'Creating a Python 3.11 environment...'
-    py -3.11 -m venv (Join-Path $PSScriptRoot '.venv')
-    if ($LASTEXITCODE -ne 0) { throw 'Install Python 3.11 (64-bit) with the Python launcher, then run Setup.ps1 again.' }
+$python = $PythonPath
+if (-not $python) {
+    $python = Join-Path $PSScriptRoot 'python\python.exe'
+    if (-not (Test-Path -LiteralPath $python)) { $python = Join-Path $PSScriptRoot '.venv\Scripts\python.exe' }
 }
-& $python -m pip install --upgrade pip
-if ($LASTEXITCODE -ne 0) { throw 'pip setup failed.' }
-& $python -m pip install torch==2.8.0 --index-url https://download.pytorch.org/whl/cu126
-if ($LASTEXITCODE -ne 0) { throw 'PyTorch setup failed.' }
-& $python -m pip install -r (Join-Path $PSScriptRoot 'requirements.txt')
-if ($LASTEXITCODE -ne 0) { throw 'Dependency setup failed.' }
-Write-Host 'Setup complete. Open Start.cmd.'
+if (-not (Test-Path -LiteralPath $python)) {
+    Write-Host 'Creating a Python 3.11 environment for the source checkout...'
+    py -3.11 -m venv (Join-Path $PSScriptRoot '.venv')
+    if ($LASTEXITCODE -ne 0) { throw 'For the source checkout, install Python 3.11; the portable bundle already includes Python.' }
+}
+& $python -m studio.dependencies install
+if ($LASTEXITCODE -ne 0) { throw 'Setup did not finish. Check your connection and free disk space, then open Start.cmd again.' }

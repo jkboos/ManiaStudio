@@ -6,6 +6,7 @@
   <title>Mania Studio · 本機譜面工作台</title>
   <link rel="icon" href="/assets/mark.svg" type="image/svg+xml">
   <link rel="stylesheet" href="/assets/style.css">
+  <script src="/assets/i18n.js" defer></script>
   <script src="/assets/app.js" defer></script>
 </head>
 <body>
@@ -13,12 +14,19 @@
     <a class="brand" href="/" aria-label="Mania Studio 首頁"><img src="/assets/mark.svg" width="30" height="30" alt=""><span>mania<span class="brand-light"> studio</span></span><span class="local-tag">LOCAL</span></a>
     <nav aria-label="主要導覽"><a class="nav-item active" href="#create">建立譜面</a><a class="nav-item" href="#history">生成紀錄</a></nav>
     <div class="connection" id="connection"><span class="status-dot"></span><span id="connection-text">連線中</span></div>
+    <div class="language-picker" data-language-menu>
+      <button type="button" id="language-toggle" class="language-toggle" aria-haspopup="menu" aria-expanded="false" aria-controls="language-menu" aria-label="語言：繁體中文（台灣）"><img id="language-flag" src="/assets/flags/tw.svg" alt="" width="22" height="15"><span id="language-name">繁體中文（台灣）</span><svg viewBox="0 0 16 16" aria-hidden="true"><path d="m4 6 4 4 4-4"/></svg></button>
+      <div id="language-menu" class="language-menu" role="menu" aria-label="選擇語言" hidden>
+        <button type="button" role="menuitemradio" aria-checked="true" data-language="zh-TW" lang="zh-Hant-TW"><img src="/assets/flags/tw.svg" alt="" width="22" height="15"><span>繁體中文（台灣）</span><span class="language-check" aria-hidden="true">✓</span></button>
+        <button type="button" role="menuitemradio" aria-checked="false" data-language="en" lang="en"><img src="/assets/flags/gb.svg" alt="" width="22" height="15"><span>English</span><span class="language-check" aria-hidden="true">✓</span></button>
+      </div>
+    </div>
   </div></header>
   <main class="shell" id="create">
     <form id="map-form" class="editor-grid">
       <div class="editor-main">
         <section class="panel">
-          <div class="section-heading"><span class="section-number">01</span><div><h2>音檔與背景</h2><p>為這張譜面選一個起點。</p></div></div>
+          <div class="section-heading"><span class="section-number">01</span><div><h2>音檔與背景</h2></div></div>
           <div class="youtube-import">
             <label class="field" for="youtube-url">從 YouTube 加入音樂 <span class="optional">或使用下方音檔上傳</span></label>
             <div class="youtube-row"><input id="youtube-url" type="text" inputmode="url" maxlength="2048" placeholder="貼上 YouTube 或 youtu.be 影片網址" autocomplete="off" spellcheck="false" aria-describedby="youtube-status"><div class="youtube-download-options"><button type="button" id="youtube-download-video" aria-label="下載含影片"><span>下載<strong>含影片</strong></span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12m-4-4 4 4 4-4M5 16v4h14v-4"/></svg></button><button type="button" id="youtube-download" aria-label="下載不含影片"><span>下載<strong>不含影片</strong></span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12m-4-4 4 4 4-4M5 16v4h14v-4"/></svg></button></div></div>

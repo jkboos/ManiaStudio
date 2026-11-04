@@ -1,16 +1,17 @@
 'use strict';
+const t = window.I18N.t;
 const $ = id => document.getElementById(id);
 const form = $('map-form');
 const chips = [...document.querySelectorAll('[data-tech]')];
-const state = {audio:null, background:null, video:null, videoBusy:false, job:null, busy:0, versionEdited:false, online:false, importing:false, importId:null, appliedImportId:null, clearing:false};
+const state = {audio:null, background:null, video:null, videoBusy:false, job:null, busy:0, versionEdited:false, online:false, importing:false, importId:null, appliedImportId:null, clearing:false, lastImport:null};
 const active = job => job && ['queued','running'].includes(job.status);
 const duration = seconds => `${Math.floor(seconds/60)}:${String(Math.floor(seconds%60)).padStart(2,'0')}`;
 let toastTimer, pollTimer, importTimer, historyEpoch=0;
-function toast(message) { $('toast').textContent=message; $('toast').hidden=false; clearTimeout(toastTimer); toastTimer=setTimeout(()=>$('toast').hidden=true,6500); }
+function toast(message) { $('toast').textContent=t(message); $('toast').hidden=false; clearTimeout(toastTimer); toastTimer=setTimeout(()=>$('toast').hidden=true,6500); }
 async function api(url, options={}) {
   const response=await fetch(url, options);
   const data=await response.json();
-  if (!response.ok) throw new Error(data.error || '請求未完成，請再試一次。');
+  if (!response.ok) throw new Error(data.error || t('請求未完成，請再試一次。'));
   return data;
 }
 function settings() {
@@ -24,7 +25,7 @@ function saveDraft() { try {localStorage.setItem('mania-studio-draft',JSON.strin
 function render() {
   const s=settings();
   if(!state.versionEdited) $('version').value=`${s.keys}K - ${Number.isFinite(s.stars)?s.stars.toFixed(1):'4.0'} stars`;
-  $('preview-title').textContent=s.metadata.title||'你的下一首音樂';
+  $('preview-title').textContent=s.metadata.title||t('你的下一首音樂');
   $('preview-artist').textContent=s.metadata.artist||'Unknown';
   $('preview-creator').textContent=s.metadata.creator||'ManiaModel';
   $('preview-version').textContent=$('version').value||`${s.keys}K`;
@@ -32,7 +33,7 @@ function render() {
   $('preview-stars').textContent=`★ ${s.stars.toFixed(1)}`;
   $('summary-difficulty').textContent=`${s.keys}K · ${s.stars.toFixed(1)} ★`;
   $('summary-duration').textContent=state.audio?duration(state.audio.duration_s):'—';
-  $('summary-background').textContent=state.background?'已加入':'未選擇（選填）';
+  $('summary-background').textContent=state.background?t('已加入'):t('未選擇（選填）');
   $('preview-image').hidden=!state.background;
   $('default-art').hidden=!!state.background;
   if(state.background) $('preview-image').src=state.background.url;
@@ -46,10 +47,10 @@ function render() {
   $('video-busy').hidden=!state.videoBusy;
   $('remove-video').disabled=state.importing||state.clearing||state.videoBusy;
   for(const id of ['choose-video','video-file'])$(id).disabled=!state.audio||!state.online||state.importing||state.clearing||state.videoBusy||!$('audio-busy').hidden;
-  $('choose-video').textContent=state.video?'更換影片':'上傳影片';
+  $('choose-video').textContent=state.video?t('更換影片'):t('上傳影片');
   if(state.video){
     $('video-name').textContent=state.video.original_name;
-    $('video-detail').textContent=`${state.video.width} × ${state.video.height} · ${duration(state.video.duration_s)} · ${(state.video.bytes/1048576).toFixed(1)} MB · 無音訊`;
+    $('video-detail').textContent=t(`${state.video.width} × ${state.video.height} · ${duration(state.video.duration_s)} · ${(state.video.bytes/1048576).toFixed(1)} MB · 無音訊`);
     $('video-preview').href=state.video.url;
     if($('video-player').getAttribute('src')!==state.video.url)$('video-player').src=state.video.url;
     if(state.background)$('video-player').poster=state.background.url;else $('video-player').removeAttribute('poster');
@@ -60,8 +61,8 @@ function render() {
   for(const id of ['audio-file','choose-audio','replace-audio','remove-audio']) $(id).disabled=state.importing||state.clearing||state.videoBusy;
   for(const id of ['background-file','choose-background','replace-background','remove-background'])$(id).disabled=state.clearing;
   $('audio-zone').classList.toggle('importing',state.importing);
-  $('generate-label').textContent=active(state.job)?'正在生成…':'生成譜面';
-  $('generate-help').textContent=state.importing?'下載完成後即可生成。':active(state.job)?'完成後可下載包含音樂與背景的 .osz。':state.video&&!state.background?'含影片仍需背景圖片，請加入背景圖。':state.video?'輸出包含音樂、背景圖與影片的 .osz。':state.audio?'輸出 .osz 譜面包與 .osu 檔案。':'上傳音檔或貼上 YouTube 網址加入音樂。';
+  $('generate-label').textContent=active(state.job)?t('正在生成…'):t('生成譜面');
+  $('generate-help').textContent=state.importing?t('下載完成後即可生成。'):active(state.job)?t('完成後可下載包含音樂與背景的 .osz。'):state.video&&!state.background?t('含影片仍需背景圖片，請加入背景圖。'):state.video?t('輸出包含音樂、背景圖與影片的 .osz。'):state.audio?t('輸出 .osz 譜面包與 .osu 檔案。'):t('上傳音檔或貼上 YouTube 網址加入音樂。');
   saveDraft();
 }
 function showAsset(kind, asset) {
@@ -77,7 +78,7 @@ function showAsset(kind, asset) {
 async function upload(kind,file) {
   if(!file || state.clearing || !$(`${kind}-busy`).hidden || (kind==='audio' && (state.importing||state.videoBusy))) return;
   const limit=kind==='audio'?200:20;
-  if(file.size>limit*1048576) return toast(`檔案大小不可超過 ${limit} MB。`);
+  if(file.size>limit*1048576) return toast(t(`檔案大小不可超過 ${limit} MB。`));
   state.busy++;$(`${kind}-busy`).hidden=false;render();
   try {
     const body=new FormData();body.append('kind',kind);body.append('file',file);
@@ -88,9 +89,9 @@ async function upload(kind,file) {
 }
 async function uploadVideo(file){
   if(!file||state.importing||state.videoBusy||state.clearing)return;
-  if(!state.audio)return toast('請先加入音樂，再上傳對應的背景影片。');
+  if(!state.audio)return toast(t('請先加入音樂，再上傳對應的背景影片。'));
   if(!$('audio-busy').hidden)return;
-  if(file.size>2048*1048576)return toast('背景影片上限為 2 GB。');
+  if(file.size>2048*1048576)return toast(t('背景影片上限為 2 GB。'));
   state.videoBusy=true;state.busy++;render();
   try{
     const body=new FormData();body.append('kind','video');body.append('audio_id',state.audio.id);body.append('file',file);
@@ -109,13 +110,13 @@ function fillAudioMetadata(asset, replaceSong=false) {
 }
 function rememberImport(id) {try{if(id)localStorage.setItem('mania-studio-import',id);else localStorage.removeItem('mania-studio-import');}catch{}}
 function importStatus(item) {
-  state.importId=item.id;state.importing=active(item);
+  state.lastImport=item;state.importId=item.id;state.importing=active(item);
   $('youtube-feedback').hidden=false;$('youtube-feedback').classList.toggle('failed',item.status==='failed');
   $('youtube-cancel').hidden=!state.importing;
-  const labels={fetching:'正在取得影片資訊…',downloading:'正在下載音訊…',converting:'正在轉換成 MP3…',registering:'正在檢查音檔…',background:'正在下載影片封面…',video_downloading:'正在下載高畫質無音訊影片…',video_packaging:'正在封裝 MP4，不重新編碼…',video_converting:'來源影片需轉成相容格式，正在轉檔…',completed:item.video?'音樂、背景圖片與影片已加入。':'音訊已加入，可以試聽或生成譜面。',failed:'下載未完成',cancelled:'已取消下載，原本的音檔保留。'};
+  const labels={fetching:t('正在取得影片資訊…'),downloading:t('正在下載音訊…'),converting:t('正在轉換成 MP3…'),registering:t('正在檢查音檔…'),background:t('正在下載影片封面…'),video_downloading:t('正在下載高畫質無音訊影片…'),video_packaging:t('正在封裝 MP4，不重新編碼…'),video_converting:t('來源影片需轉成相容格式，正在轉檔…'),completed:item.video?t('音樂、背景圖片與影片已加入。'):t('音訊已加入，可以試聽或生成譜面。'),failed:t('下載未完成'),cancelled:t('已取消下載，原本的音檔保留。')};
   const hasProgress=['downloading','video_downloading'].includes(item.stage)&&Number.isFinite(item.progress);
   $('youtube-status').textContent=(labels[item.stage]||labels.fetching)+(hasProgress?` ${item.progress.toFixed(0)}%`:'');
-  $('youtube-error').hidden=!(item.error||item.warning);$('youtube-error').textContent=item.error||item.warning||'';
+  $('youtube-error').hidden=!(item.error||item.warning);$('youtube-error').textContent=t(item.error||item.warning||'');
   $('youtube-progress').hidden=!state.importing;
   if(hasProgress)$('youtube-progress').value=item.progress;else $('youtube-progress').removeAttribute('value');
   if(item.status==='completed'&&item.asset&&state.appliedImportId!==item.id){
@@ -136,14 +137,14 @@ async function watchImport(id) {
     if(active(item))importTimer=setTimeout(()=>watchImport(id),800);
   } catch(error) {
     if(epoch!==historyEpoch)return;
-    $('youtube-feedback').hidden=false;$('youtube-status').textContent='正在重新連線以確認下載狀態…';
+    $('youtube-feedback').hidden=false;$('youtube-status').textContent=t('正在重新連線以確認下載狀態…');
     importTimer=setTimeout(()=>watchImport(id),3000);
   }
 }
 async function startImport(includeVideo){
   if(state.importing || state.videoBusy || !$('audio-busy').hidden)return;
   const url=$('youtube-url').value.trim();
-  if(!url){$('youtube-url').focus();return toast('請先貼上 YouTube 影片網址。');}
+  if(!url){$('youtube-url').focus();return toast(t('請先貼上 YouTube 影片網址。'));}
   state.importing=true;state.appliedImportId=null;render();
   try {
     const item=await api('/api/audio-imports',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({url,include_video:includeVideo})});
@@ -181,14 +182,14 @@ const stageText={queued:['等待生成','已加入本機佇列。'],preparing:['
 function displayJob(job) {
   state.job=job;$('job-panel').hidden=false;$('job-panel').className=`job-panel ${job.status}`;
   const [title,description]=stageText[job.stage]||stageText.preparing;
-  $('job-title').textContent=title;
-  $('job-description').textContent=job.status==='completed'?`實際 ${job.result.actual_stars.toFixed(2)} ★ / 目標 ${job.result.target_stars.toFixed(1)} ★\n${job.result.taps} 個單鍵 · ${job.result.holds} 個 LN\n實際編排與難度仍以試玩感受為準。`:job.error||description;
+  $('job-title').textContent=t(title);
+  $('job-description').textContent=job.status==='completed'?t(`實際 ${job.result.actual_stars.toFixed(2)} ★ / 目標 ${job.result.target_stars.toFixed(1)} ★\n${job.result.taps} 個單鍵 · ${job.result.holds} 個 LN\n實際編排與難度仍以試玩感受為準。`):t(job.error||description);
   const elapsed=(new Date(job.finished_at||Date.now())-new Date(job.started_at||job.created_at))/1000;
   $('job-elapsed').textContent=duration(Math.max(0,elapsed));
   $('cancel-job').hidden=!active(job);$('result-actions').hidden=job.status!=='completed';
   $('job-error-details').hidden=!job.error_details;$('job-error-text').textContent=job.error_details||'';
   for(const kind of ['osu','osz']) $(`download-${kind}`).href=`/api/jobs/${job.id}/download/${kind}`;
-  if(job.status==='completed')$('download-osz').firstChild.textContent=job.result.video_file?'下載含影片 .osz 譜面包 ':'下載 .osz 譜面包 ';
+  if(job.status==='completed')$('download-osz').firstChild.textContent=job.result.video_file?t('下載含影片 .osz 譜面包 '):t('下載 .osz 譜面包 ');
   const step={queued:0,preparing:0,analyzing:0,generating:1,validating:2,packaging:3,completed:4}[job.stage]??0;
   [...$('job-steps').children].forEach((el,i)=>el.className=i<step?'done':i===step&&active(job)?'current':'');
   render();
@@ -215,48 +216,48 @@ form.onsubmit=async event=>{
 };
 $('cancel-job').onclick=async()=>{if(!state.job)return;try{displayJob(await api(`/api/jobs/${state.job.id}/cancel`,{method:'POST'}));await refreshHistory();}catch(error){toast(error.message);}};
 function node(tag,className,text) {const el=document.createElement(tag);el.className=className;if(text!==undefined)el.textContent=text;return el;}
-const emptyHistory=$('history-list').firstElementChild.cloneNode(true);
+function emptyHistory(){const el=node('div','history-empty');el.append(node('span','','▥'),node('strong','',t('第一張譜面，從這裡開始。')),node('p','',t('完成後可以在這裡重新下載。')));return el;}
 $('clear-history').onclick=async()=>{
   state.busy++;state.clearing=true;render();
   try {
     const info=await api('/api/history/cleanup');
-    if(!info.can_clear)return toast('仍有生成或下載作業，請完成或取消後再清除。');
-    if(!info.files)return toast('目前沒有需要清除的紀錄或檔案。');
+    if(!info.can_clear)return toast(t('仍有生成或下載作業，請完成或取消後再清除。'));
+    if(!info.files)return toast(t('目前沒有需要清除的紀錄或檔案。'));
     const size=info.bytes>=1073741824?`${(info.bytes/1073741824).toFixed(2)} GB`:`${(info.bytes/1048576).toFixed(1)} MB`;
-    if(!confirm(`清除 ${info.jobs} 筆生成紀錄、${info.imports} 筆下載紀錄及 ${info.assets} 份音樂／背景資產？\n\n會永久刪除程式內的譜面、音樂、圖片、影片與暫存檔，約可釋放 ${size}，目前選取的音樂與背景也會清空。\n\n不包含瀏覽器另存的檔案或已匯入 osu! 的譜面。`))return;
+    if(!confirm(t(`清除 ${info.jobs} 筆生成紀錄、${info.imports} 筆下載紀錄及 ${info.assets} 份音樂／背景資產？\n\n會永久刪除程式內的譜面、音樂、圖片、影片與暫存檔，約可釋放 ${size}，目前選取的音樂與背景也會清空。\n\n不包含瀏覽器另存的檔案或已匯入 osu! 的譜面。`)))return;
     // Release the media stream before deleting its underlying file on Windows.
     $('audio-player').pause();$('audio-player').removeAttribute('src');$('audio-player').load();
     $('video-player').pause();$('video-player').removeAttribute('src');$('video-player').load();
     await api('/api/history',{method:'DELETE'});
     historyEpoch++;
     clearTimeout(pollTimer);clearTimeout(importTimer);
-    state.job=null;state.importId=null;state.appliedImportId=null;state.importing=false;state.video=null;
+    state.job=null;state.lastImport=null;state.importId=null;state.appliedImportId=null;state.importing=false;state.video=null;
     $('title').value='';$('artist').value='Unknown';
     for(const name of ['title_romanized','artist_romanized','source','tags'])form.elements[name].value='';
     showAsset('audio',null);showAsset('background',null);
     $('job-panel').hidden=true;$('youtube-feedback').hidden=true;$('youtube-url').value='';
-    rememberImport(null);await refreshHistory();toast(`已清除紀錄與檔案，釋放約 ${size}。`);
+    rememberImport(null);await refreshHistory();toast(t(`已清除紀錄與檔案，釋放約 ${size}。`));
   } catch(error){toast(error.message);if(state.audio)$('audio-player').src=state.audio.url;await refreshHistory().catch(()=>{});}
   finally{state.busy--;state.clearing=false;render();}
 };
 async function refreshHistory() {
   const {jobs}=await api('/api/jobs');$('history-count').textContent=jobs.length;
-  if(!jobs.length)$('history-list').replaceChildren(emptyHistory.cloneNode(true));
+  if(!jobs.length)$('history-list').replaceChildren(emptyHistory());
   if(jobs.length) $('history-list').replaceChildren(...jobs.map(job=>{
     const card=node('article','history-card'),cover=node('div','history-cover',`${job.request.keys}K`),info=node('div','history-info');
     if(job.request.background_id) cover.style.backgroundImage=`linear-gradient(#17161d44,#17161d99),url('/api/uploads/${job.request.background_id}/file')`;
-    info.append(node('h3','',job.request.metadata.title),node('p','',`${job.request.metadata.artist} · ${new Date(job.created_at).toLocaleString('zh-TW',{month:'numeric',day:'numeric',hour:'2-digit',minute:'2-digit'})}`));
-    info.append(node('p',`history-status ${job.status}`,job.result?`${job.request.keys}K · ${job.result.actual_stars.toFixed(2)} ★ · ${job.request.techniques.join(' + ')||'未指定段位偏好'}`:(stageText[job.stage]||stageText.preparing)[0]));
+    info.append(node('h3','',job.request.metadata.title),node('p','',`${job.request.metadata.artist} · ${new Date(job.created_at).toLocaleString(window.I18N.language,{month:'numeric',day:'numeric',hour:'2-digit',minute:'2-digit'})}`));
+    info.append(node('p',`history-status ${job.status}`,job.result?`${job.request.keys}K · ${job.result.actual_stars.toFixed(2)} ★ · ${job.request.techniques.join(' + ')||t('未指定段位偏好')}`:t((stageText[job.stage]||stageText.preparing)[0])));
     const links=node('div','history-links');
-    if(job.status==='completed') {const download=node('a','text-button','下載 .osz');download.href=`/api/jobs/${job.id}/download/osz`;links.append(download);}
-    const detail=node('button','text-button','查看結果');detail.type='button';detail.onclick=()=>{if(active(state.job)&&state.job.id!==job.id)return toast('目前仍在生成，請完成後再查看其他結果。');displayJob(job);if(active(job))watchJob(job.id);$('job-panel').scrollIntoView({behavior:'smooth',block:'center'});};
+    if(job.status==='completed') {const download=node('a','text-button',t('下載 .osz'));download.href=`/api/jobs/${job.id}/download/osz`;links.append(download);}
+    const detail=node('button','text-button',t('查看結果'));detail.type='button';detail.onclick=()=>{if(active(state.job)&&state.job.id!==job.id)return toast(t('目前仍在生成，請完成後再查看其他結果。'));displayJob(job);if(active(job))watchJob(job.id);$('job-panel').scrollIntoView({behavior:'smooth',block:'center'});};
     links.append(detail);info.append(links);card.append(cover,info);return card;
   }));
   return jobs;
 }
 async function init() {
   try {
-    await api('/api/health');state.online=true;$('connection-text').textContent='本機已連線';
+    await api('/api/health');state.online=true;$('connection-text').textContent=t('本機已連線');
     let draft;try{draft=JSON.parse(localStorage.getItem('mania-studio-draft'));}catch{}
     if(draft) {
       for(const [key,value] of Object.entries(draft.metadata||{})) if(form.elements[key])form.elements[key].value=value;
@@ -273,7 +274,14 @@ async function init() {
     let pending;try{pending=localStorage.getItem('mania-studio-import');}catch{}
     if(current.item){$('youtube-url').value=current.item.url;rememberImport(current.item.id);importStatus(current.item);watchImport(current.item.id);}
     else if(pending){try{const item=await api(`/api/audio-imports/${pending}`);$('youtube-url').value=item.url;importStatus(item);if(active(item))watchImport(item.id);}catch{rememberImport(null);}}
-  } catch(error) {state.online=false;$('connection').classList.add('offline');$('connection-text').textContent='連線失敗';toast(error.message);}
+  } catch(error) {state.online=false;$('connection').classList.add('offline');$('connection-text').textContent=t('連線失敗');toast(error.message);}
   render();
 }
+window.addEventListener('studio-language-change',()=>{
+  $('connection-text').textContent=t(state.online?'本機已連線':'連線失敗');
+  if(state.lastImport)importStatus(state.lastImport);
+  if(state.job)displayJob(state.job);else render();
+  $('toast').hidden=true;
+  refreshHistory().catch(error=>toast(error.message));
+});
 init();
