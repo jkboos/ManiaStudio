@@ -20,7 +20,7 @@ This repository contains the web tool and its integration with a separate genera
 
 ### Requirements
 
-Windows and Python 3.11 (64-bit, with the Python launcher). A compatible NVIDIA GPU can accelerate generation; CPU execution is also supported.
+64-bit Windows. A compatible NVIDIA GPU can accelerate generation; CPU execution is also supported.
 
 The separately built portable bundle includes Python, so its users do not need to install Python themselves. Third-party packages are downloaded automatically on first launch. The bundled Python and release ZIP are not stored in this source repository.
 
