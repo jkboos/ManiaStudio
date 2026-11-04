@@ -1,0 +1,1 @@
+"""Local Mania Studio application."""

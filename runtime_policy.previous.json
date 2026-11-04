@@ -1,0 +1,6 @@
+{
+  "version": "studio-ln-plan-2",
+  "decoder": "audio_ln_plan",
+  "legacy_decoder": "legacy",
+  "description": "Previous Studio policy, retained for rollback."
+}

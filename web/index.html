@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#18171e">
+  <title>Mania Studio · 本機譜面工作台</title>
+  <link rel="icon" href="/assets/mark.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/assets/style.css">
+  <script src="/assets/app.js" defer></script>
+</head>
+<body>
+  <header class="topbar"><div class="topbar-inner">
+    <a class="brand" href="/" aria-label="Mania Studio 首頁"><img src="/assets/mark.svg" width="30" height="30" alt=""><span>mania<span class="brand-light"> studio</span></span><span class="local-tag">LOCAL</span></a>
+    <nav aria-label="主要導覽"><a class="nav-item active" href="#create">建立譜面</a><a class="nav-item" href="#history">生成紀錄</a></nav>
+    <div class="connection" id="connection"><span class="status-dot"></span><span id="connection-text">連線中</span></div>
+  </div></header>
+  <main class="shell" id="create">
+    <form id="map-form" class="editor-grid">
+      <div class="editor-main">
+        <section class="panel">
+          <div class="section-heading"><span class="section-number">01</span><div><h2>音檔與背景</h2><p>為這張譜面選一個起點。</p></div></div>
+          <div class="youtube-import">
+            <label class="field" for="youtube-url">從 YouTube 加入音樂 <span class="optional">或使用下方音檔上傳</span></label>
+            <div class="youtube-row"><input id="youtube-url" type="text" inputmode="url" maxlength="2048" placeholder="貼上 YouTube 或 youtu.be 影片網址" autocomplete="off" spellcheck="false" aria-describedby="youtube-status"><div class="youtube-download-options"><button type="button" id="youtube-download-video" aria-label="下載含影片"><span>下載<strong>含影片</strong></span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12m-4-4 4 4 4-4M5 16v4h14v-4"/></svg></button><button type="button" id="youtube-download" aria-label="下載不含影片"><span>下載<strong>不含影片</strong></span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12m-4-4 4 4 4-4M5 16v4h14v-4"/></svg></button></div></div>
+            <div class="youtube-feedback" id="youtube-feedback" hidden><div class="youtube-status-row"><span id="youtube-status" role="status" aria-live="polite"></span><button type="button" class="text-button" id="youtube-cancel" hidden>取消下載</button></div><progress id="youtube-progress" max="100" aria-label="音訊下載進度" hidden></progress><p id="youtube-error" hidden></p></div>
+          </div>
+          <div class="uploads">
+            <div class="upload-area" id="audio-zone">
+              <input class="file-input" id="audio-file" type="file" accept=".mp3,.wav,.ogg,.flac" aria-label="上傳音檔">
+              <div class="upload-empty" id="audio-empty"><span class="upload-icon music-icon" aria-hidden="true">♫</span><strong>拖曳音樂到這裡</strong><span>或 <button type="button" class="text-button" id="choose-audio">選擇音檔</button></span><small>MP3 · WAV · OGG · FLAC，最高 200 MB</small></div>
+              <div id="audio-loaded" class="upload-loaded" hidden><div class="file-top"><span class="file-badge">♫</span><div class="file-description"><strong id="audio-name"></strong><span id="audio-detail"></span></div><button type="button" id="remove-audio" class="icon-button" aria-label="移除音檔">×</button></div><audio id="audio-player" controls preload="metadata" aria-label="試聽上傳音檔"></audio><button type="button" class="text-button" id="replace-audio">更換音檔</button></div>
+              <div class="upload-busy" id="audio-busy" hidden><span class="spinner"></span> 正在讀取音檔…</div>
+            </div>
+            <div class="upload-area background-zone" id="background-zone">
+              <input class="file-input" id="background-file" type="file" accept=".jpg,.jpeg,.png,.webp" aria-label="上傳背景圖">
+              <div class="upload-empty" id="background-empty"><span class="upload-icon picture-icon" aria-hidden="true">▧</span><strong>加上背景圖片 <span class="optional">選填</span></strong><span>拖曳圖片或 <button type="button" class="text-button" id="choose-background">選擇圖片</button></span><small>JPG · PNG · WebP，最高 20 MB</small></div>
+              <div id="background-loaded" class="background-loaded" hidden><img id="background-thumb" alt="上傳的背景預覽"><div class="background-actions"><span id="background-detail"></span><button type="button" id="remove-background" class="icon-button" aria-label="移除背景圖片">×</button></div><button type="button" class="image-replace" id="replace-background">更換背景</button></div>
+              <div class="upload-busy" id="background-busy" hidden><span class="spinner"></span> 正在讀取圖片…</div>
+            </div>
+          </div>
+          <div class="video-upload" id="video-zone">
+            <input class="file-input" id="video-file" type="file" accept=".mp4,.mkv,.webm,.avi,.mov" aria-label="上傳背景影片">
+            <div class="video-upload-heading"><strong>背景影片 <span class="optional">選填</span></strong><button type="button" class="text-button" id="choose-video">上傳影片</button></div>
+            <div class="video-empty" id="video-empty">拖曳影片到這裡，或上傳本機影片。MP4 · MKV · WebM · AVI · MOV，最高 2 GB。<br>請先加入音樂；影片會移除音軌，從歌曲開頭播放，背景圖片仍需保留。</div>
+            <div id="video-loaded" hidden><video id="video-player" controls muted playsinline preload="metadata" aria-label="背景影片預覽"></video><div class="video-attachment" id="video-attachment"><div><strong id="video-name">背景影片已加入</strong><span id="video-detail"></span></div><a id="video-preview" target="_blank" rel="noopener">另開預覽</a><button type="button" class="text-button" id="remove-video">移除影片</button></div></div>
+            <div class="video-busy" id="video-busy" role="status" hidden><span class="spinner"></span> 正在上傳與處理影片，保留原解析度並移除音軌…</div>
+          </div>
+        </section>
+        <section class="panel metadata-panel">
+          <div class="section-heading"><span class="section-number">02</span><div><h2>譜面資訊</h2><p>顯示在 osu! 歌曲選單中；留白時使用音檔資訊或預設值。</p></div></div>
+          <div class="field-grid">
+            <label class="field">歌曲標題 <span class="field-en">Title</span><input name="title" id="title" maxlength="250" placeholder="留白時使用音檔標題" autocomplete="off"></label>
+            <label class="field">演出者 <span class="field-en">Artist</span><input name="artist" id="artist" maxlength="250" value="Unknown" placeholder="留白時使用 Unknown" autocomplete="off"></label>
+            <label class="field subdued-label">羅馬拼音標題 <span class="optional">選填</span><input name="title_romanized" id="title-romanized" maxlength="250" placeholder="與原文相同可留白" autocomplete="off"></label>
+            <label class="field subdued-label">羅馬拼音演出者 <span class="optional">選填</span><input name="artist_romanized" id="artist-romanized" maxlength="250" placeholder="與原文相同可留白" autocomplete="off"></label>
+            <label class="field">製譜者 <span class="field-en">Beatmap Creator</span><input name="creator" id="creator" maxlength="100" value="ManiaModel" placeholder="留白時使用 ManiaModel" autocomplete="off"></label>
+            <label class="field">難度名稱 <span class="field-en">Version</span><input name="version" id="version" maxlength="150" value="4K - 4.0 stars" placeholder="留白時依按鍵數與星數命名" autocomplete="off"><small>遊戲中的名稱，與下方的目標星數分開設定。</small></label>
+            <label class="field">作品來源 <span class="field-en">Source</span><span class="optional">選填</span><input name="source" id="source" maxlength="250" placeholder="動畫、遊戲或專輯名稱" autocomplete="off"></label>
+            <label class="field">搜尋標籤 <span class="field-en">Tags</span><span class="optional">選填</span><input name="tags" id="tags" maxlength="600" placeholder="以空格分隔，例如 vocal original" autocomplete="off"></label>
+          </div>
+        </section>
+        <section class="panel settings-panel">
+          <div class="section-heading"><span class="section-number">03</span><div><h2>難度設定</h2><p>決定鍵數、段位組合與目標難度。</p></div></div>
+          <div class="settings-row"><fieldset class="key-fieldset"><legend>按鍵數</legend><div class="key-options"><label><input type="radio" name="keys" value="4" checked><span class="key-option"><span class="mini-keys" aria-hidden="true"><i></i><i></i><i></i><i></i></span><b>4K</b></span></label><label><input type="radio" name="keys" value="7"><span class="key-option"><span class="mini-keys seven" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span><b>7K</b></span></label></div></fieldset></div>
+          <div class="technique-heading"><h3>段位偏好 <span class="optional">可複選</span></h3><button type="button" class="text-button muted" id="reset-techniques">重設偏好</button></div>
+          <div class="techniques" id="techniques" aria-label="段位偏好">
+            <button type="button" class="tech-chip speed" data-tech="speed" aria-pressed="false"><span class="chip-check">✓</span><b>Speed</b><span>速</span></button>
+            <button type="button" class="tech-chip stamina" data-tech="stamina" aria-pressed="false"><span class="chip-check">✓</span><b>Stamina</b><span>耐</span></button>
+            <button type="button" class="tech-chip tech" data-tech="tech" aria-pressed="true"><span class="chip-check">✓</span><b>Tech</b><span>技</span></button>
+            <button type="button" class="tech-chip jack" data-tech="jack" aria-pressed="false"><span class="chip-check">✓</span><b>Jack</b><span>疊</span></button>
+            <button type="button" class="tech-chip stream" data-tech="stream" aria-pressed="true"><span class="chip-check">✓</span><b>Stream</b><span>切</span></button>
+            <button type="button" class="tech-chip ln" data-tech="LN" aria-pressed="true"><span class="chip-check">✓</span><b>LN</b></button>
+          </div>
+          <div class="difficulty-block"><div class="difficulty-heading"><label for="stars">目標星數</label><div class="star-input"><span aria-hidden="true">★</span><input id="stars" type="number" min="0.5" max="15" step="0.1" value="4.0" required aria-label="目標星數"></div></div><input id="stars-range" type="range" min="0.5" max="15" step="0.1" value="4" aria-label="調整目標星數"><div class="range-labels"><span>0.5 ★</span><span>15 ★</span></div><p>以此星數為目標，實際生成結果可能略有差異。</p></div>
+        </section>
+      </div>
+      <aside class="editor-aside"><div class="sticky-summary">
+        <section class="preview-card" aria-label="譜面預覽">
+          <div class="preview-art" id="preview-art"><img id="preview-image" alt="譜面背景預覽" hidden><div class="default-art" id="default-art" aria-hidden="true"><div class="art-line"></div><div class="piano"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div></div><div class="preview-overlay"></div><div class="preview-top"><span class="preview-label">BEATMAP PREVIEW</span><span class="key-badge" id="preview-key">4K</span></div><div class="preview-title"><span id="preview-artist">Unknown</span><h2 id="preview-title">你的下一首歌</h2></div></div>
+          <div class="preview-body"><div class="preview-difficulty"><span class="difficulty-dot"></span><strong id="preview-version">4K - 4.0 stars</strong><span class="preview-stars" id="preview-stars">★ 4.0</span></div><p class="mapped-by">mapped by <span id="preview-creator">ManiaModel</span></p><div class="preview-tags" id="preview-tags"></div></div>
+        </section>
+        <section class="summary-card"><div class="summary-row"><span>目標難度</span><strong id="summary-difficulty">4K · 4.0 ★</strong></div><div class="summary-row"><span>音樂長度</span><strong id="summary-duration">—</strong></div><div class="summary-row"><span>背景圖片</span><strong id="summary-background">未選擇</strong></div><div class="summary-rule"></div><button class="generate-button" id="generate-button" type="submit"><span class="button-spark" aria-hidden="true">✦</span><span id="generate-label">生成譜面</span><span aria-hidden="true">→</span></button><p class="generate-help" id="generate-help">先上傳音檔，即可開始生成。</p></section>
+        <section id="job-panel" class="job-panel" hidden aria-live="polite"><div class="job-heading"><strong id="job-title">正在生成</strong><span id="job-elapsed"></span></div><p id="job-description"></p><div class="job-steps" id="job-steps"><i></i><i></i><i></i><i></i></div><button type="button" class="text-button" id="cancel-job">取消生成</button><div id="result-actions" hidden><a id="download-osz" class="download-primary" href="#">下載 .osz 譜面包 <span>↓</span></a><a id="download-osu" class="text-button" href="#">單獨下載 .osu</a></div><details id="job-error-details" hidden><summary>錯誤詳情</summary><pre id="job-error-text"></pre></details></section>
+      </div></aside>
+    </form>
+    <section class="history-section" id="history"><div class="history-heading"><div><h2>生成紀錄</h2></div><div class="history-tools"><span id="history-count" class="count-badge">0</span><button type="button" class="clear-history" id="clear-history">清除紀錄與檔案</button></div></div><div id="history-list" class="history-list"><div class="history-empty"><span aria-hidden="true">▥</span><strong>第一張譜面，從這裡開始。</strong><p>完成後可以在這裡重新下載。</p></div></div></section>
+    <footer><span>mania studio <span class="footer-dot">·</span> localhost</span><span>實際編排與難度，請以試玩感受為準。</span></footer>
+  </main>
+  <div class="toast" id="toast" role="alert" hidden></div>
+</body>
+</html>

@@ -1,0 +1,26 @@
+{
+  "version": "studio-control-1",
+  "checkpoint": "runs/control_v1/control.pt",
+  "checkpoint_sha256": "dfdbb735d01b5d8a85794e897f9edb6a0b9fa1c405ce106fb709afae34d6aa07",
+  "decoder": "control_decode.py",
+  "decoder_sha256": "cda60697faabd72bd18e3876e0d3e0c72f06489b6e193b8ec4523b4e6657fe12",
+  "source": "score_training_v1 control: user-selected after full-song playtesting",
+  "parameters": {
+    "technique_strength": 0.35,
+    "temperature": 0.85,
+    "seed": 6271,
+    "star_tolerance": 0.5,
+    "onset_factors": [
+      0.85,
+      1.0,
+      1.15
+    ],
+    "max_seed_attempts": 3
+  },
+  "selection": "Closest calculated stars among raw control outputs; no human-quality or short-gap penalties.",
+  "rhythm_note": "Same frozen audio onset model as pilot. Pilot used Segment-selected onset thresholds; this portable route selects thresholds from control outputs directly.",
+  "ln_plan": false,
+  "chord_plan": false,
+  "short_jack_repair": false,
+  "ln_duration_cap": null
+}

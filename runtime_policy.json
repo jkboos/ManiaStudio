@@ -1,0 +1,6 @@
+{
+  "version": "studio-control-1",
+  "decoder": "control",
+  "legacy_decoder": "legacy",
+  "description": "User-selected retrained control checkpoint and original free-running decoder. Previous policy is preserved in runtime_policy.previous.json."
+}

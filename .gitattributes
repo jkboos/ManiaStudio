@@ -1,0 +1,2 @@
+# Runtime manifests verify exact source bytes. Do not rewrite line endings.
+* -text

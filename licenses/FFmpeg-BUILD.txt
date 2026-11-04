@@ -1,0 +1,12 @@
+Bundled binaries: bin/ffmpeg.exe and bin/ffprobe.exe
+Build: N-125875-g5d4d3bdc61-20260731, x86_64 Windows, GCC 15.2.0
+Build options include --enable-gpl --enable-version3.
+The license accompanying the installed distribution is FFmpeg-LICENSE.txt.
+
+Distribution: yt-dlp.FFmpeg (installed via Windows Package Manager)
+Build project and source/build instructions: https://github.com/yt-dlp/FFmpeg-Builds
+Build infrastructure: https://github.com/BtbN/FFmpeg-Builds
+FFmpeg source: https://github.com/FFmpeg/FFmpeg/tree/5d4d3bdc61
+FFmpeg project: https://ffmpeg.org/
+
+Only ffmpeg and ffprobe are bundled; ffplay is not included.

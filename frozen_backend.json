@@ -1,0 +1,44 @@
+{
+  "version": "studio-frozen-1",
+  "description": "Frozen legacy rhythm and output technique adapter v2. No automatic rhythm-clock or salience experiments.",
+  "parameters": {
+    "strength": 0.35,
+    "selection": "techniques-local",
+    "star_tolerance": 0.5,
+    "technique_slack": 0.25,
+    "seed": 42
+  },
+  "models": {
+    "runs/full_epoch_large/epoch_complete.pt": "3c42719ddca6cb45d6a3985bf78559be3f8eef461fcc2e83c0f04f723fa37b57",
+    "runs/technique_adapter_v2/epoch_complete.pt": "9819ff6fa4bced174b28a0e2993ef51a204d017ba4ff79017e54ea628561d253"
+  },
+  "python_snapshot": {
+    "audio_features.py": "912b7d4c454e2060d0086619d76c47fd66f051b3b36b18d3f790290764a59957",
+    "bass_frames.py": "9c9836c7825ab3261fd86e410647f7da5516027541bd3df18aa585c30f9446ac",
+    "chart_pressure.py": "5b90d4a41b150e8607a74e905840cab0878486ab5796cd12fd632dc5ba481aca",
+    "epoch_data.py": "7ec7235502cf7aa52a7d17a7dfa5084fe23eb2cb872210280bd4104544b914ed",
+    "fixed_timing.py": "308f3f905f1fd8acd5ba132445cd92be693cadd95cdd8ebe9486836cf55d86bd",
+    "frame_metrics.py": "1727b6d6b1e12c8b97a399fa82930c1c4ac40d039cacbad706b685ec97aeacf3",
+    "generate_frames.py": "3be97790f90b865d1ec2f59c71affa05312ab27d761e581fdfb00a34ca1e570e",
+    "generate_output_adapter.py": "0ce9bd961305903e01fd75da2652451027365a44216ff761477f2a2290c59263",
+    "lane_history.py": "fab8837c230b3dd59a50f21bab510b28ba93c935e6d77452dfcf2d4cbeee75d4",
+    "mania_frames.py": "e8bebe69b1e399a3a38c3147e6e2db07947b86dcfb17a9b55d88f9220b8d3bfb",
+    "osu_export.py": "560ac88269cfeca2fe4192b489f249866866e03916734223bff97920451781a9",
+    "pattern_data.py": "a2339309c1d44264f1dd3b61aaf4197570674f6a53c35a1aac41ebce8702ddc3",
+    "pattern_decode.py": "d0365a3f8576b31de1b0279087c621bbbcd3c1ecf535c5a910acba36888228cd",
+    "pattern_model.py": "1a9ecfc2640a59c4dca40de358c4e14f1fb89360344fdfe8008c2b844cb23c6f",
+    "pattern_selection.py": "c438a576a222a219ab8b765b537de7f0af700e253e1637ff4f8dea8e5c67edd9",
+    "prepare_dataset.py": "f9aefb2d414762392e43ad1730160ecbe91f7f589f4c30510ca077e50dcee003",
+    "repair_output_adapter.py": "aa413c2de3f583db0451b1478d3dd7ec23dbb9a686dd11b5ee6350e77b706b1f",
+    "requested_selection.py": "9e63180049de2529447f2840725a02c6f9151a7ca4f45e15dd51eab6c68431e0",
+    "short_jacks.py": "7dbb234257de98638ff310a13ae2bcda9133d5a08b2f337568bdc757823b7ab2",
+    "technique_data.py": "20eb37b3fb7ac2ca147b818d1585b7c183aa25f7b8bf7262a8c5b587b7d0865d",
+    "technique_integrity.py": "2465c6047e2e197795700563617e9424782dfd41338c7136981af63b1e08c8e4",
+    "technique_models.py": "b4007178c29851b8dcfd037ca96a85ca9dc4750b1cfb278e4b9824997d75cecb",
+    "technique_output_adapter.py": "088d5b640d266034add3fc4a403fc64d5d24a82c8f05e6aedc3ebdccc65f950c",
+    "validate_generation.py": "1c13102d1242eaed6d0ab1c2f0559c77c3347e0d5f9576ebe474ef090b0fd922",
+    "technique_adapter_data.py": "de2af3fedacb1ec032a92aa642ddfe9cd2edb313f36c2756d456a5927f35a98b"
+  },
+  "node_version": "24.15.0",
+  "node_sha256": "3331e1ffe19874215472217c5e94f5a0c6d8e18c4ac7111d3937aa0ad5e9b4a5"
+}

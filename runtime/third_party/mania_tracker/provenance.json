@@ -1,0 +1,266 @@
+{
+  "repository": "aleju03/mania-hub",
+  "commit": "2811e5273f286f63b6f8300d0fda1eb7f85f19c1",
+  "files": [
+    {
+      "path": "LICENSE",
+      "sha256": "d6b4b939f95aec92c7f295246e21304308e376c40aa96d2f249eedf206052cd8",
+      "url": "https://raw.githubusercontent.com/aleju03/mania-hub/2811e5273f286f63b6f8300d0fda1eb7f85f19c1/LICENSE"
+    },
+    {
+      "path": "algorithms/README.md",
+      "sha256": "0004bffc1e598d273cdd9507afc5402eba123dea3faddc849a59d8001d86aec7",
+      "url": "https://raw.githubusercontent.com/aleju03/mania-hub/2811e5273f286f63b6f8300d0fda1eb7f85f19c1/algorithms/README.md"
+    },
+    {
+      "path": "algorithms/chart/beatmap.ts",
+      "sha256": "62b21f45b5bac7d8e350bab412150bfff332fb8dfb36de7a58398909047359d8",
+      "url": "https://raw.githubusercontent.com/aleju03/mania-hub/2811e5273f286f63b6f8300d0fda1eb7f85f19c1/algorithms/chart/beatmap.ts"
+    },
+    {
+      "path": "algorithms/chart/cells.ts",
+      "sha256": "667b8ca9ddd12b2466b1143a641b50939fe274f1826c6e95d26bc3e2a3ad677e",
+      "url": "https://raw.githubusercontent.com/aleju03/mania-hub/2811e5273f286f63b6f8300d0fda1eb7f85f19c1/algorithms/chart/cells.ts"
+    },
+    {
+      "path": "algorithms/chart/invert.ts",
+      "sha256": "534757f1ce954eac04e8f77af00cdea43c0058815488063416fbb586050af22a",
+      "url": "https://raw.githubusercontent.com/aleju03/mania-hub/2811e5273f286f63b6f8300d0fda1eb7f85f19c1/algorithms/chart/invert.ts"
+    },
+    {
+      "path": "algorithms/chart/note-bpm.ts",
+      "sha256": "8d5e34019b168a01c06738674e8cfc2aa7625515987a234e2093798dd66ffbeb",
+      "url": "https://raw.githubusercontent.com/aleju03/mania-hub/2811e5273f286f63b6f8300d0fda1eb7f85f19c1/algorithms/chart/note-bpm.ts"
+    },
+    {
+      "path": "algorithms/chart/pp.ts",
+      "sha256": "6a7472a73df120761894488b7cb09a76a81e3efd165893839a8b2ffd7222ab74",
+      "url": "https://raw.githubusercontent.com/aleju03/mania-hub/2811e5273f286f63b6f8300d0fda1eb7f85f19c1/algorithms/chart/pp.ts"
+    },
+    {
+      "path": "algorithms/chart/score.ts",
+      "sha256": "90202fba665f00786827f65dde26621571f3538e390a8a0ba119ed310733ba3b",
+      "url": "https://raw.githubusercontent.com/aleju03/mania-hub/2811e5273f286f63b6f8300d0fda1eb7f85f19c1/algorithms/chart/score.ts"
+    },
+    {
+      "path": "algorithms/chart/star-rating.ts",
+      "sha256": "f138494169107e832c011dd7f4138131c1d7eaa900c7ff0f80d545422fbf49af",
+      "url": "https://raw.githubusercontent.com/aleju03/mania-hub/2811e5273f286f63b6f8300d0fda1eb7f85f19c1/algorithms/chart/star-rating.ts"
+    },
+    {
+      "path": "algorithms/classification/chart-analysis.ts",
+      "sha256": "bf38e9d4a6a53219bf1ec3640240950ab93e725d14f8c9e17c04f9828ff4f643",
+      "url": "https://raw.githubusercontent.com/aleju03/mania-hub/2811e5273f286f63b6f8300d0fda1eb7f85f19c1/algorithms/classification/chart-analysis.ts"
+    },
+    {
+      "path": "algorithms/classification/chart-classification-data.ts",
+      "sha256": "1af1e817fb2fc3f2b5a30ef9ee7dd830485dcb9258f01c65b9bd7eb5c0cf5428",
+      "url": "https://raw.githubusercontent.com/aleju03/mania-hub/2811e5273f286f63b6f8300d0fda1eb7f85f19c1/algorithms/classification/chart-classification-data.ts"
+    },
+    {
+      "path": "algorithms/classification/chart-classifier.ts",
+      "sha256": "caeb7c792ae0d4c244d1221fe06edaa0ca19de7136e5bb802cf99d163529bc3c",
+      "url": "https://raw.githubusercontent.com/aleju03/mania-hub/2811e5273f286f63b6f8300d0fda1eb7f85f19c1/algorithms/classification/chart-classifier.ts"
+    },
+    {
+      "path": "algorithms/classification/dan-eligibility.ts",
+      "sha256": "3f4005b3486516f5325c43a4ed22512a54f99e12e3ce5ccb5a474f5366db0208",
+      "url": "https://raw.githubusercontent.com/aleju03/mania-hub/2811e5273f286f63b6f8300d0fda1eb7f85f19c1/algorithms/classification/dan-eligibility.ts"
+    },
+    {
+      "path": "algorithms/classification/hybrid-ln-sections.ts",
+      "sha256": "ba0766ccee79bb397589ca5efb22ad9f3e6986815b3945107c2a70d976322bb2",
+      "url": "https://raw.githubusercontent.com/aleju03/mania-hub/2811e5273f286f63b6f8300d0fda1eb7f85f19c1/algorithms/classification/hybrid-ln-sections.ts"
+    },
+    {
+      "path": "algorithms/classification/jack-demand.ts",
+      "sha256": "d26cd13aacfaf27be694c8c48816ceb52022abe3a0920d914033bd92af543721",
+      "url": "https://raw.githubusercontent.com/aleju03/mania-hub/2811e5273f286f63b6f8300d0fda1eb7f85f19c1/algorithms/classification/jack-demand.ts"
+    },
+    {
+      "path": "algorithms/classification/ln-identity.ts",
+      "sha256": "15d1178c14da4b8d8b729b661fa3e393762495d75b4c0040739d90d9131a7173",
+      "url": "https://raw.githubusercontent.com/aleju03/mania-hub/2811e5273f286f63b6f8300d0fda1eb7f85f19c1/algorithms/classification/ln-identity.ts"
+    },
+    {
+      "path": "algorithms/classification/motion-features.ts",
+      "sha256": "22157cc69b098d1e4c1066ab6dbf1e623595f6d93412492d205509cfcaf55ad3",
+      "url": "https://raw.githubusercontent.com/aleju03/mania-hub/2811e5273f286f63b6f8300d0fda1eb7f85f19c1/algorithms/classification/motion-features.ts"
+    },
+    {
+      "path": "algorithms/dan-estimator/features.ts",
+      "sha256": "d26bec4dbc813a969e1e63ff4248f33ddb22b0baf072ce7141de4b3fa59f3022",
+      "url": "https://raw.githubusercontent.com/aleju03/mania-hub/2811e5273f286f63b6f8300d0fda1eb7f85f19c1/algorithms/dan-estimator/features.ts"
+    },
+    {
+      "path": "algorithms/dan-estimator/labels.ts",
+      "sha256": "3620ad0c3512862b21047b62d5a89b1a43aba2b3bb0ce64dccfccbe677fc7f7f",
+      "url": "https://raw.githubusercontent.com/aleju03/mania-hub/2811e5273f286f63b6f8300d0fda1eb7f85f19c1/algorithms/dan-estimator/labels.ts"
+    },
+    {
+      "path": "algorithms/dan-estimator/ln-effective.ts",
+      "sha256": "3cb99699c1f155eafd6ab072445b78c72945c1500c3e5a376f79519c5942c59c",
+      "url": "https://raw.githubusercontent.com/aleju03/mania-hub/2811e5273f286f63b6f8300d0fda1eb7f85f19c1/algorithms/dan-estimator/ln-effective.ts"
+    },
+    {
+      "path": "algorithms/dan-estimator/ln.ts",
+      "sha256": "01cc8e712d6372adc13f2889f5035f9117e4564c318c4141d71443f33f6f250d",
+      "url": "https://raw.githubusercontent.com/aleju03/mania-hub/2811e5273f286f63b6f8300d0fda1eb7f85f19c1/algorithms/dan-estimator/ln.ts"
+    },
+    {
+      "path": "algorithms/dan-estimator/math.ts",
+      "sha256": "39113d5ca275099971f584a2c1cb8f51207a3bd06c4d395f8394f840d12c0274",
+      "url": "https://raw.githubusercontent.com/aleju03/mania-hub/2811e5273f286f63b6f8300d0fda1eb7f85f19c1/algorithms/dan-estimator/math.ts"
+    },
+    {
+      "path": "algorithms/dan-estimator/patterns.ts",
+      "sha256": "d44ff36efad8025b5e9ebf276a9f5bf24322b835d987a72e41d812741923dd79",
+      "url": "https://raw.githubusercontent.com/aleju03/mania-hub/2811e5273f286f63b6f8300d0fda1eb7f85f19c1/algorithms/dan-estimator/patterns.ts"
+    },
+    {
+      "path": "algorithms/dan-estimator/types.ts",
+      "sha256": "6725a10ef19a482ac13a65af7ab424f019477a283dc45650a54ac7f7cab76a53",
+      "url": "https://raw.githubusercontent.com/aleju03/mania-hub/2811e5273f286f63b6f8300d0fda1eb7f85f19c1/algorithms/dan-estimator/types.ts"
+    },
+    {
+      "path": "algorithms/leoblack/companella.ts",
+      "sha256": "80c5f194677d0802f64f8b62d826aa0c35783925bed0c4667a4e469017c71ce0",
+      "url": "https://raw.githubusercontent.com/aleju03/mania-hub/2811e5273f286f63b6f8300d0fda1eb7f85f19c1/algorithms/leoblack/companella.ts"
+    },
+    {
+      "path": "algorithms/leoblack/estimator.ts",
+      "sha256": "b210c6eb0f0d12a69beefb6267eb38be839d56ffb644ccdd270122749da53515",
+      "url": "https://raw.githubusercontent.com/aleju03/mania-hub/2811e5273f286f63b6f8300d0fda1eb7f85f19c1/algorithms/leoblack/estimator.ts"
+    },
+    {
+      "path": "algorithms/ln/axis-keymodes.ts",
+      "sha256": "fe7861cac0d2816ae6a7b4d3086ae23c6c7766d5e5be3b903865456e79173d00",
+      "url": "https://raw.githubusercontent.com/aleju03/mania-hub/2811e5273f286f63b6f8300d0fda1eb7f85f19c1/algorithms/ln/axis-keymodes.ts"
+    },
+    {
+      "path": "algorithms/ln/skill.ts",
+      "sha256": "02cd982fea2e41f0cf55d3faee2503bcda0c3ba92ee426b0641d2308db3be929",
+      "url": "https://raw.githubusercontent.com/aleju03/mania-hub/2811e5273f286f63b6f8300d0fda1eb7f85f19c1/algorithms/ln/skill.ts"
+    },
+    {
+      "path": "algorithms/ln/skillset-classifier.ts",
+      "sha256": "8050650955821687f9bcb4b7f01f577d6936f7b6c4b6e2198c54a1f318f867af",
+      "url": "https://raw.githubusercontent.com/aleju03/mania-hub/2811e5273f286f63b6f8300d0fda1eb7f85f19c1/algorithms/ln/skillset-classifier.ts"
+    },
+    {
+      "path": "algorithms/ln/skillsets.ts",
+      "sha256": "f70e237b0959c9b3eb99e45420ca2af55f0f6fab080edd4c0a3017cf127f1836",
+      "url": "https://raw.githubusercontent.com/aleju03/mania-hub/2811e5273f286f63b6f8300d0fda1eb7f85f19c1/algorithms/ln/skillsets.ts"
+    },
+    {
+      "path": "algorithms/ln/ssr.ts",
+      "sha256": "c646038bb59156761c7674d0e0f6df3349cd8da15c67a877ef224c21ac48fe00",
+      "url": "https://raw.githubusercontent.com/aleju03/mania-hub/2811e5273f286f63b6f8300d0fda1eb7f85f19c1/algorithms/ln/ssr.ts"
+    },
+    {
+      "path": "algorithms/ln/timeline.ts",
+      "sha256": "63878da5dd007b76c1ded11508453a51a1fa3acf8ef9432f2632ee9dc3bbb41a",
+      "url": "https://raw.githubusercontent.com/aleju03/mania-hub/2811e5273f286f63b6f8300d0fda1eb7f85f19c1/algorithms/ln/timeline.ts"
+    },
+    {
+      "path": "algorithms/ln/workload.ts",
+      "sha256": "b53b881e6db21bf8378847df796acc2780bfe920866241d454efe2573fb7f770",
+      "url": "https://raw.githubusercontent.com/aleju03/mania-hub/2811e5273f286f63b6f8300d0fda1eb7f85f19c1/algorithms/ln/workload.ts"
+    },
+    {
+      "path": "algorithms/msd/headline.ts",
+      "sha256": "f8c4e0fa1129b2318ea166b0d45a5d38d93d66e8ca8ca5a61e670d5007e14d7c",
+      "url": "https://raw.githubusercontent.com/aleju03/mania-hub/2811e5273f286f63b6f8300d0fda1eb7f85f19c1/algorithms/msd/headline.ts"
+    },
+    {
+      "path": "algorithms/msd/inline.ts",
+      "sha256": "975f8deaaa28ee4618e41627b097ab60828227b80799990352df9075bc0c4f97",
+      "url": "https://raw.githubusercontent.com/aleju03/mania-hub/2811e5273f286f63b6f8300d0fda1eb7f85f19c1/algorithms/msd/inline.ts"
+    },
+    {
+      "path": "algorithms/msd/minacalc.ts",
+      "sha256": "0e8a5e47a07393fd83a27e251a16cc51b19a72b96656c5a312ec9f0d24084e2f",
+      "url": "https://raw.githubusercontent.com/aleju03/mania-hub/2811e5273f286f63b6f8300d0fda1eb7f85f19c1/algorithms/msd/minacalc.ts"
+    },
+    {
+      "path": "algorithms/msd/msd.ts",
+      "sha256": "09a6ad1fc0b8644b442063981ff712cf449815260e9034c068bcf1aa1bbd9fd7",
+      "url": "https://raw.githubusercontent.com/aleju03/mania-hub/2811e5273f286f63b6f8300d0fda1eb7f85f19c1/algorithms/msd/msd.ts"
+    },
+    {
+      "path": "algorithms/msd/prism.ts",
+      "sha256": "89f3a22baea117e498d4fd2c55944b1199dd730c60b33b03a2c5ed3c094d1553",
+      "url": "https://raw.githubusercontent.com/aleju03/mania-hub/2811e5273f286f63b6f8300d0fda1eb7f85f19c1/algorithms/msd/prism.ts"
+    },
+    {
+      "path": "algorithms/vibro/detection.ts",
+      "sha256": "efbbcd4912d81f3bffd8fb798d6243db85e687790d6e3f5024d8c5b5d6883bcc",
+      "url": "https://raw.githubusercontent.com/aleju03/mania-hub/2811e5273f286f63b6f8300d0fda1eb7f85f19c1/algorithms/vibro/detection.ts"
+    },
+    {
+      "path": "algorithms/vibro/motion.ts",
+      "sha256": "4f9073766362d73bb90796e2e45d1628db10c945d40b2660b90f699b739ddafb",
+      "url": "https://raw.githubusercontent.com/aleju03/mania-hub/2811e5273f286f63b6f8300d0fda1eb7f85f19c1/algorithms/vibro/motion.ts"
+    },
+    {
+      "path": "algorithms/vibro/rate.ts",
+      "sha256": "cef0602506ffd5ac7281ff2f3cfd7cad3cb687e4af6fd4207df852385e0c00ba",
+      "url": "https://raw.githubusercontent.com/aleju03/mania-hub/2811e5273f286f63b6f8300d0fda1eb7f85f19c1/algorithms/vibro/rate.ts"
+    },
+    {
+      "path": "algorithms/vibro/sections.ts",
+      "sha256": "0f84373112e7aee975e80763657aeff09b6bb9ebade2b5640ea90eaa56307bb0",
+      "url": "https://raw.githubusercontent.com/aleju03/mania-hub/2811e5273f286f63b6f8300d0fda1eb7f85f19c1/algorithms/vibro/sections.ts"
+    },
+    {
+      "path": "docs/features/skill-ratings.md",
+      "sha256": "73fe49861b12d66a5ebf5c67b80efb913d2d1cb3060c8ed4bfe034cc9a879fd0",
+      "url": "https://raw.githubusercontent.com/aleju03/mania-hub/2811e5273f286f63b6f8300d0fda1eb7f85f19c1/docs/features/skill-ratings.md"
+    },
+    {
+      "path": "src/lib/mania-patterns.ts",
+      "sha256": "7bda80f05f27d17cd1a9cb16c15f681ceee524f41db9c73f45a62cd6b54c47c1",
+      "url": "https://raw.githubusercontent.com/aleju03/mania-hub/2811e5273f286f63b6f8300d0fda1eb7f85f19c1/src/lib/mania-patterns.ts"
+    },
+    {
+      "path": "src/lib/osu/pattern-analysis.ts",
+      "sha256": "e2dd046668c4bf2a50c7a46a8d3761339de929c905057330622fcb569823eb52",
+      "url": "https://raw.githubusercontent.com/aleju03/mania-hub/2811e5273f286f63b6f8300d0fda1eb7f85f19c1/src/lib/osu/pattern-analysis.ts"
+    },
+    {
+      "path": "src/lib/pattern-labels.ts",
+      "sha256": "f22b4d58e988e4c32ab9fca1a1c80631ccc38f6ed872bc1faeaa38f513de9608",
+      "url": "https://raw.githubusercontent.com/aleju03/mania-hub/2811e5273f286f63b6f8300d0fda1eb7f85f19c1/src/lib/pattern-labels.ts"
+    },
+    {
+      "path": "src/lib/skill-axes.ts",
+      "sha256": "5359a104eae40172647571c61a47399c204dbba096cd16506181ec68afd8910e",
+      "url": "https://raw.githubusercontent.com/aleju03/mania-hub/2811e5273f286f63b6f8300d0fda1eb7f85f19c1/src/lib/skill-axes.ts"
+    },
+    {
+      "path": "src/components/maps/FilterChips.tsx",
+      "url": "https://raw.githubusercontent.com/aleju03/mania-hub/2811e5273f286f63b6f8300d0fda1eb7f85f19c1/src/components/maps/FilterChips.tsx",
+      "sha256": "263547b9055e7f5353d9b4f6e974383ddcc55dad183e56632b6d6b18533fed79"
+    },
+    {
+      "path": "docs/features/maps.md",
+      "url": "https://raw.githubusercontent.com/aleju03/mania-hub/2811e5273f286f63b6f8300d0fda1eb7f85f19c1/docs/features/maps.md",
+      "sha256": "29685084b4352094e04c4fb7a6ef268825aad439a29cda71afc48e20929dae2f"
+    },
+    {
+      "path": "src/lib/map-search-msd.ts",
+      "url": "https://raw.githubusercontent.com/aleju03/mania-hub/2811e5273f286f63b6f8300d0fda1eb7f85f19c1/src/lib/map-search-msd.ts",
+      "sha256": "a27fdca4637025b06d9f440e8d92c16d1c1734602bdf0b5a8ed266607d7c0edf"
+    },
+    {
+      "path": "algorithms/player/dan-clears.ts",
+      "url": "https://raw.githubusercontent.com/aleju03/mania-hub/2811e5273f286f63b6f8300d0fda1eb7f85f19c1/algorithms/player/dan-clears.ts",
+      "sha256": "00a3fbdacde76679d09adda88a957b53ffb503ca5bf5d4b382d23269c556b896"
+    },
+    {
+      "path": "src/components/maps/MapSearchSection.tsx",
+      "url": "https://raw.githubusercontent.com/aleju03/mania-hub/2811e5273f286f63b6f8300d0fda1eb7f85f19c1/src/components/maps/MapSearchSection.tsx",
+      "sha256": "f841657cae616717f52806d4c7a8cb1a488ec99c557a4fa9608ed3af3864968e"
+    }
+  ]
+}
