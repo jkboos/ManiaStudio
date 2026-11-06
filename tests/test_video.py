@@ -156,7 +156,7 @@ def test_osz_video_and_image_coexist_notes_unchanged(tmp_path,media):
         with zipfile.ZipFile(dest/'beatmap.osz') as archive:
             assert 'background.png' in archive.namelist()
             assert ('video.mp4' in archive.namelist())==enabled
-            exported=archive.read('beatmap.osu').decode('utf-8')
+            exported=archive.read(result['archive_osu_file']).decode('utf-8')
             assert ('Video,0,"video.mp4",0,0' in exported)==enabled
             assert '0,0,"background.png",0,0' in exported
             assert exported.split('[HitObjects]')[1].splitlines()==text.split('[HitObjects]')[1].splitlines()

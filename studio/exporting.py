@@ -1,11 +1,78 @@
 """Metadata/background packaging only; never modify generated hit objects."""
 from __future__ import annotations
 import hashlib
+import copy
 import json
+import os
 from pathlib import Path
 import re
 import shutil
+import tempfile
+import threading
+import time
+import uuid
 import zipfile
+
+_archive_lock = threading.Lock()
+
+
+def archive_osu_name(export_id):
+    if not isinstance(export_id, str) or not re.fullmatch(r'[a-f0-9]{32}', export_id):
+        raise ValueError('Invalid generation ID')
+    return f'ManiaStudio-{export_id}.osu'
+
+
+def ensure_unique_archive(export_dir, job_id):
+    """Upgrade old history archives without changing map/media contents.
+
+    Local imports must not reuse the generic internal beatmap.osu filename.
+    Keep the canonical disk filenames for existing workers and download URLs.
+    Only replace the archive after the rebuilt ZIP has passed integrity checks.
+    """
+    expected = archive_osu_name(job_id)
+    archive_path = Path(export_dir)/'beatmap.osz'
+    with _archive_lock:
+        temporary = None
+        try:
+            with zipfile.ZipFile(archive_path) as source:
+                maps = [i for i in source.infolist() if i.filename.lower().endswith('.osu')]
+                if len(maps) != 1:
+                    raise ValueError('Expected one generated beatmap per archive')
+                if maps[0].filename == expected:
+                    return archive_path
+                with tempfile.NamedTemporaryFile(dir=archive_path.parent, prefix='import-', suffix='.tmp', delete=False) as f:
+                    temporary = Path(f.name)
+                with zipfile.ZipFile(temporary, 'w') as target:
+                    for info in source.infolist():
+                        renamed = copy.copy(info)
+                        if info is maps[0]:
+                            renamed.filename = expected
+                        with source.open(info) as src, target.open(renamed, 'w', force_zip64=True) as dst:
+                            shutil.copyfileobj(src, dst, 1024*1024)
+                with zipfile.ZipFile(temporary) as check:
+                    if check.testzip() is not None:
+                        raise ValueError('Rebuilt archive failed integrity validation')
+                    for info in source.infolist():
+                        name = expected if info is maps[0] else info.filename
+                        updated = check.getinfo(name)
+                        if (updated.CRC, updated.file_size) != (info.CRC, info.file_size):
+                            raise ValueError('Archive upgrade changed file contents')
+            # Windows may still have a previous download open briefly.
+            for delay in (.05, .1, .2, .4, .8, 1.6, None):
+                try:
+                    os.replace(temporary, archive_path)
+                    break
+                except PermissionError:
+                    if delay is None:
+                        raise
+                    time.sleep(delay)
+            return archive_path
+        finally:
+            if temporary is not None:
+                try:
+                    temporary.unlink(missing_ok=True)
+                except OSError:
+                    pass # Preserve a failed replacement's original exception.
 
 
 def download_name(job, kind):
@@ -92,15 +159,19 @@ def package_result(source: Path, destination: Path, request, background: Path | 
         raise ValueError('Metadata export changed calculated difficulty')
     if sha256_file(destination/audio_name) != report['audio_sha256']:
         raise ValueError('Exported audio differs')
-    filenames = ['beatmap.osu', audio_name] + ([background_name] if background_name else []) + ([video_name] if video_name else [])
+    export_id = destination.parent.name
+    if not re.fullmatch(r'[a-f0-9]{32}', export_id):
+        export_id = uuid.uuid4().hex
+    map_name = archive_osu_name(export_id)
+    filenames = [map_name, audio_name] + ([background_name] if background_name else []) + ([video_name] if video_name else [])
     with zipfile.ZipFile(destination/'beatmap.osz', 'w', zipfile.ZIP_DEFLATED) as archive:
         for name in filenames:
-            archive.write(destination/name, name)
+            archive.write(osu if name == map_name else destination/name, name)
     with zipfile.ZipFile(destination/'beatmap.osz') as archive:
         if archive.testzip() or set(archive.namelist()) != set(filenames):
             raise ValueError('Invalid osu archive')
         for name in filenames:
-            if hashlib.sha256(archive.read(name)).hexdigest() != sha256_file(destination/name):
+            if hashlib.sha256(archive.read(name)).hexdigest() != sha256_file(osu if name == map_name else destination/name):
                 raise ValueError('Archive file differs')
     result = dict(actual_stars=stars, target_stars=request['stars'], keys=request['keys'],
                   taps=report['note_count'], holds=report['ln_count'],
@@ -108,7 +179,8 @@ def package_result(source: Path, destination: Path, request, background: Path | 
                   duration_s=report['audio_duration_s'], bpm=report['timing']['bpm'],
                   background_file=background_name, video_file=video_name, metadata=request['metadata'],
                   techniques=request['techniques'], backend_version=frozen_manifest['version'],
-                  validated=True, technique_analysis=report.get('technique_analysis'),
+                  validated=True, archive_osu_file=map_name, export_id=export_id,
+                  technique_analysis=report.get('technique_analysis'),
                   local_repair=report.get('local_repair'),
                   inference_policy=report.get('inference_policy'),
                   ln_plan=next((c.get('ln_plan') for c in report['candidates'] if c['candidate']==report['selected_candidate']),None),

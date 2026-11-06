@@ -17,7 +17,7 @@ with sync_playwright() as p:
         page.locator('#download-osz').click()
     pending.value.save_as(QA/'downloaded.osz')
     with zipfile.ZipFile(QA/'downloaded.osz') as archive:
-        text=archive.read('beatmap.osu').decode('utf-8').replace('\r\n','\n')
+        text=archive.read(next(n for n in archive.namelist() if n.endswith('.osu'))).decode('utf-8').replace('\r\n','\n')
         assert 'TitleUnicode:DEMON’S SHOT · 介面測試' in text
         assert 'Source:\nTags:\n' in text
         assert '0,0,"background.png",0,0' in text
