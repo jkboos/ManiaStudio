@@ -4,6 +4,16 @@ $appRoot = $PSScriptRoot
 $env:PYTHONUTF8 = '1'
 $env:PYTHONIOENCODING = 'utf-8'
 $python = Join-Path $appRoot 'python\python.exe'
+# Source checkouts reuse their development environment even when a bundled
+# Python has been prepared for packaging. Releases keep using app-local Python.
+if (Test-Path -LiteralPath (Join-Path $appRoot '.git')) {
+    foreach ($candidate in @(
+        (Join-Path $appRoot '.venv\Scripts\python.exe'),
+        (Join-Path (Split-Path $appRoot -Parent) '.venv\Scripts\python.exe')
+    )) {
+        if (Test-Path -LiteralPath $candidate) { $python = $candidate; break }
+    }
+}
 if (-not (Test-Path -LiteralPath $python)) {
     $python = Join-Path $appRoot '.venv\Scripts\python.exe'
     if (-not (Test-Path -LiteralPath $python)) {

@@ -13,6 +13,7 @@ from studio.domain import validate_request, read_json
 from studio.jobs import Jobs
 from studio.youtube import AudioImports
 from studio.history import History
+from studio.exporting import download_name
 
 ROOT = Path(__file__).resolve().parent
 
@@ -156,7 +157,7 @@ def create_app(workspace=None, run_worker=True):
         names = {'osz': 'beatmap.osz', 'osu': 'beatmap.osu', 'report': 'result.json'}
         if kind not in names:
             raise KeyError(kind)
-        return send_file(jobs.root/job_id/'export'/names[kind], as_attachment=True, download_name=names[kind])
+        return send_file(jobs.root/job_id/'export'/names[kind], as_attachment=True, download_name=download_name(job, kind))
 
     return app
 

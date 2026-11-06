@@ -16,6 +16,8 @@ A compatible NVIDIA GPU can accelerate generation; CPU execution is also support
 
 Upload music or enter a YouTube URL. Choose whether to include a background video, review the metadata and background media, then select 4K or 7K, a target star rating, and optional pattern preferences. Download the generated `.osz` to import into osu!.
 
+Downloads include the song name, key mode, and a unique generation ID so separate generations import into separate osu! folders. This also applies when downloading older history entries again.
+
 Use the flag menu at the top right to switch between Traditional Chinese (Taiwan) and English. Your language choice is remembered, and switching preserves the current form. The interface labels pattern preferences as **Dan preferences**.
 
 Unselected Jack defaults to reduced-jack conditioning. Selected Jack emphasizes it. These are approximate model preferences, not guarantees of playability.

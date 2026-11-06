@@ -8,6 +8,28 @@ import shutil
 import zipfile
 
 
+def download_name(job, kind):
+    """A stable archive name per generation, including legacy history entries.
+
+    osu!stable imports local archives into a directory named after the archive.
+    Keep the job ID even when metadata is identical or filename characters are
+    removed. Internal media paths remain relative to that independent directory.
+    """
+    if kind not in ('osu', 'osz', 'report'):
+        raise ValueError('Unknown download type')
+    job_id = job['id']
+    if not re.fullmatch(r'[a-f0-9]{32}', job_id):
+        raise ValueError('Invalid generation ID')
+    metadata = job['request']['metadata']
+    def safe(value, limit, fallback):
+        value = re.sub(r'[\x00-\x1f\x7f<>:"/\\|?*]', ' ', str(value or ''))
+        return re.sub(r'\s+', ' ', value).strip(' .')[:limit].rstrip(' .') or fallback
+    artist = safe(metadata.get('artist'), 20, 'Unknown')
+    title = safe(metadata.get('title'), 32, 'Untitled')
+    extension = 'json' if kind == 'report' else kind
+    return f"ManiaStudio {artist} - {title} [{job['request']['keys']}K {job_id}].{extension}"
+
+
 def metadata_text(text, metadata, background_name=None, video_name=None):
     mapping = {'Title': metadata['title_romanized'] or metadata['title'],
                'TitleUnicode': metadata['title'],

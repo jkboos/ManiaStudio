@@ -4,6 +4,14 @@ Set-Location -LiteralPath $PSScriptRoot
 $python = $PythonPath
 if (-not $python) {
     $python = Join-Path $PSScriptRoot 'python\python.exe'
+    if (Test-Path -LiteralPath (Join-Path $PSScriptRoot '.git')) {
+        foreach ($candidate in @(
+            (Join-Path $PSScriptRoot '.venv\Scripts\python.exe'),
+            (Join-Path (Split-Path $PSScriptRoot -Parent) '.venv\Scripts\python.exe')
+        )) {
+            if (Test-Path -LiteralPath $candidate) { $python = $candidate; break }
+        }
+    }
     if (-not (Test-Path -LiteralPath $python)) { $python = Join-Path $PSScriptRoot '.venv\Scripts\python.exe' }
 }
 if (-not (Test-Path -LiteralPath $python)) {
